@@ -17,7 +17,7 @@ const client = new Client();
 
 client
     .setEndpoint(config.endpoint) // Your Appwrite Endpoint
-    .setProject(config.databaseId)
+    .setProject(config.projectId)
     .setPlatform(config.platform) // Your project ID
      // Your application ID or bundle ID.
 ;
@@ -60,3 +60,17 @@ export async function signIn(email:string,password:string){
     }
 }
 
+
+
+export async function getAllPosts() {
+    try {
+      const posts = await databases.listDocuments(
+        config.databaseId,
+        config.videoCollectionId
+      );
+  
+      return posts.documents;
+    } catch (error:any) {
+      throw new Error(error);
+    }
+  }
