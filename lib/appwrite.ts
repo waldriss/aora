@@ -1,4 +1,4 @@
-import { Account, Avatars, Client, Databases, ID } from 'react-native-appwrite';
+import { Account, Avatars, Client, Databases, ID, Query } from 'react-native-appwrite';
 export const config={
     endpoint:"https://cloud.appwrite.io/v1",
     platform:'com.walidriss.testApp',
@@ -67,6 +67,21 @@ export async function getAllPosts() {
       const posts = await databases.listDocuments(
         config.databaseId,
         config.videoCollectionId
+      );
+  
+      return posts.documents;
+    } catch (error:any) {
+      throw new Error(error);
+    }
+  }
+
+
+  export async function getLatestPosts() {
+    try {
+      const posts = await databases.listDocuments(
+        config.databaseId,
+        config.videoCollectionId,
+        [Query.orderDesc("$createdAt"), Query.limit(7)]
       );
   
       return posts.documents;

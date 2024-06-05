@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Trending from '@/components/home/Trending';
 import EmptyState from '@/components/home/EmptyState';
-import { usegetAllPosts } from '@/lib/react-query/queries';
+import { usegetAllPosts, usegetLatestPosts } from '@/lib/react-query/queries';
 import { TVideo } from '@/lib/types';
 import VideoCard from '@/components/home/VideoCard';
 const formSchema = z.object({
@@ -16,8 +16,8 @@ const formSchema = z.object({
 });
 const Home = () => {
 
-const {data:posts,isLoading}=usegetAllPosts()
-
+const {data:posts,isLoading:isLoadingAllPosts,refetch}=usegetAllPosts()
+const {data:latestPosts,isLoading:isLoadingLatestPosts}=usegetLatestPosts()
 
 
 
@@ -78,7 +78,7 @@ const {data:posts,isLoading}=usegetAllPosts()
               Latest Videos
             </Text>
 
-            <Trending posts={[{id:1},{id:2},{id:3}]??[]}/>
+            <Trending posts={latestPosts as TVideo[]??[]}/>
 
            
           </View>
